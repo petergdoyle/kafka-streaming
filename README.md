@@ -20,12 +20,12 @@ Pull a vagrant box image down. This is a one time process where a minimal CentOS
 ## Usage
 Clone the project repo. This will have everything you need to create a running Development box pre-configured and pre-installed, plus all the project sources, build definitions, etc.
 ```console
-[me@host ~]$ git clone https://github.com/petergdoyle/kafka-streaming.git
+[peter@host.machine ~]$ git clone https://github.com/petergdoyle/kafka-streaming.git
 ```
 
 Create the Dev box. You should see the virtual machine be created and provisioned and required software installed. And finally some type of success message.
 ```console
-$ cd kafka-streaming
+[peter@kafka-streaming ~]$ cd kafka-streaming
 [peter@kafka-streaming ~]$ vagrant up
 ```
 

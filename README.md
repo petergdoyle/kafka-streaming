@@ -26,12 +26,12 @@ Clone the project repo. This will have everything you need to create a running D
 Create the Dev box. You should see the virtual machine be created and provisioned and required software installed. And finally some type of success message.
 ```console
 $ cd kafka-streaming
-[me@host ~]$ vagrant up
+[peter@kafka-streaming ~]$ vagrant up
 ```
 
-Connect to the Dev box. You should end up at a console on the vm.
+Connect to the Dev box. You should end up at a console on the vm as the vagrant user.
 ```console
-[me@host ~]$ vagrant ssh
+[peter@kafka-streaming ~]$ vagrant ssh
 [vagrant@kafka-streaming ~]$
 ```
 

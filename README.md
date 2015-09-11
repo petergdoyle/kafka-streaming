@@ -43,11 +43,11 @@ v0.10.36
 ```
 Docker should be installed.
 ```console
-[vagrant@kafka-streaming ~]$ $ docker --version
+[vagrant@kafka-streaming ~]$ docker --version
 Docker version 1.7.1, build 3043001/1.7.1
 ```
 Azure CLI should be installed.
 ```console
-[vagrant@kafka-streaming ~]$ $ $ azure --version
+[vagrant@kafka-streaming ~]$ azure --version
 0.9.8 (node: 0.10.36)
 ```

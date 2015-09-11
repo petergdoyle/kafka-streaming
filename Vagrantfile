@@ -12,7 +12,7 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "CentOS-7-x86_64-MIN"
+  config.vm.box = "petergdoyle/CentOS-7-x86_64-Minimal-1503-01"
 
   #allows an ssh connection to be forwarded through the host machine on 2222
   #config.vm.network "forwarded_port", guest: 22, host: 2222, host_ip: "0.0.0.0", id: "ssh", auto_correct: true

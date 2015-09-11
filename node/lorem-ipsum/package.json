@@ -1,0 +1,28 @@
+{
+  "name": "random-lorem-ipsum-content",
+  "version": "0.0.1",
+  "description": "simple content generator to create a file of lorem-ipsum lines",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petergdoyle/kafka-streaming.git"
+  },
+  "keywords": [
+    "node",
+    "kafka",
+    "data",
+    "streaming",
+    "spring-xd"
+  ],
+  "author": "petergdoyle",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/petergdoyle/kafka-streaming/issues"
+  },
+  "dependencies": {
+    "lorem-ipsum": "~1.0.3"
+  }
+}

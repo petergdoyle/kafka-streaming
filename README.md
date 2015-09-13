@@ -46,8 +46,19 @@ Docker should be installed.
 [vagrant@kafka-streaming ~]$ docker --version
 Docker version 1.7.1, build 3043001/1.7.1
 ```
+
+**Azure will be used as a remote Docker Host.**
+--
 Azure CLI should be installed.
 ```console
 [vagrant@kafka-streaming ~]$ azure --version
 0.9.8 (node: 0.10.36)
 ```
+
+For connecting to the Azure cloud using the Azure CLI follow these instructions to get your license and account configured.
+[Using the Azure CLI for Mac, Linux, and Windows with Azure Service Management](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-command-line-tools/)
+
+For using the Azure CLI you should set up a rsa key and X509 certificate. This is required in order to access your Azure resources (vms)
+Follow the instructions here after you get your vagrant machine up and running  [How to Use SSH with Linux on Azure](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-use-ssh-key/)
+
+As well to use a Docker Virtual Machine Extension on Azure read through this document. [The Docker Virtual Machine Extension for Linux on Azure](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-docker-vm-extension/)

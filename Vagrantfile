@@ -97,11 +97,11 @@ Vagrant.configure(2) do |config|
   #install azure-cli
   npm install azure-cli -g
 
-  #setup azure-cli
-  sudo -c 'azure account import /vagrant/azure-account.publishsettings'
-  azure account list
-  #requires everything to be set up on azure first
-  su -c vagrant 'ln -s /vagrant/ssh ~/.ssh'
+  #setup azure account information
+  #https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-command-line-tools/
+  sudo -c vagrant 'azure account import /vagrant/azure-account.publishsettings'
+  sudo -c vagrant 'azure account list'
+
 
   #install docker service
   cat >/etc/yum.repos.d/docker.repo <<-EOF
@@ -117,10 +117,14 @@ EOF
   systemctl enable docker.service
 
   #allow non-sudo access to run docker commands for user vagrant
+  #if you have problems running docker as the vagrant user on the vm (if you 'vagrant ssh'd in
+  #after a 'vagrant up'), then
+  #restart the host machine and ssh in again to the vm 'vagrant halt; vagrant up; vagrant ssh'
   groupadd docker
   usermod -aG docker vagrant
 
-  #install docker-compose
+  #install docker-compose.
+  #Compose is a tool for defining and running multi-container applications with Docker.
   yum -y install python-pip
   pip install -U docker-compose
 

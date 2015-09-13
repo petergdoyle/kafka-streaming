@@ -1,0 +1,30 @@
+{
+  "name": "event-producer",
+  "version": "0.0.1",
+  "description": "a simple program to read a compressed data file from disk, decompress it and stream it out to std out",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/petergdoyle/kafka-streaming.git"
+  },
+  "keywords": [
+    "node.js",
+    "kafka",
+    "streaming"
+  ],
+  "author": "petergdoyle",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/petergdoyle/kafka-streaming/issues"
+  },
+  "homepage": "https://github.com/petergdoyle/kafka-streaming#readme",
+  "dependencies": {
+    "fs": "0.0.2",
+    "zlib": "~1.0.5",
+    "through": "~2.3.8",
+    "split": "~1.0.0"
+  }
+}

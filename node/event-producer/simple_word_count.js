@@ -5,7 +5,7 @@ var through = require('through');
 var Split = require('split');
 
 
-var fn = 'lorem-ipsum-1Mb.gz';
+var fn = process.argv[2];
 var stream = fs.createReadStream(fn);
 var gunzip = zlib.createGunzip();
 

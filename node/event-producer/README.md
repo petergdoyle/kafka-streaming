@@ -61,7 +61,7 @@ $ node simple_word_count.js lorem-ipsum-1Mb.gz
 2408
 ```
 
-Docker Usage: produce a 1Mb lorem-ipsum file using a Docker container
+Docker Usage: produce a 1Mb lorem-ipsum file using a Docker container (read [here](https://github.com/petergdoyle/kafka-streaming/tree/master/node/lorem-ipsum) for more on producing the lorem-ipsum data file).
 ```console
 $ docker build -t node/event-producer .
 $ docker run -it --rm --name lorem-ipsum node/lorem-ipsum 30000 paragraphs |sed '/^\s*$/d' | gzip > lorem-ipsum-10Mb.gz

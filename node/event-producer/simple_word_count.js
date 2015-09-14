@@ -6,7 +6,6 @@ var Split = require('split');
 
 
 var fn = process.argv[2];
-var stream = fs.createReadStream(fn);
 var gunzip = zlib.createGunzip();
 
 var stripPunctuation = through(function(d) {
@@ -32,6 +31,7 @@ count.on('end', function() {
   console.log(counter);
 });
 
+var stream = fs.createReadStream(fn);
 stream
   .pipe(gunzip)
   .pipe(stripPunctuation)

@@ -1,43 +1,25 @@
 
 var fs = require('fs');
 var zlib = require('zlib');
-var through = require('through');
-var Split = require('split');
 
 
-var fn = 'lorem-ipsum-1Mb.gz';
-var stream = fs.createReadStream(fn);
-var gunzip = zlib.createGunzip();
+  // take the name file to read from the command args
+  var fn = process.argv[2];
 
-var stripPunctuation = through(function(d) {
-  this.queue(d.toString().replace(/[\.,-\/#!$%\^&amp;\*;:{}=\-_`~()]/g, ''));
-});
+  var gunzip = zlib.createGunzip();
 
-var separateWords = through(function(d) {
-  this.queue(d.toString().replace(/ /g, '\n'));
-});
+  var streamer = function streamer (fn) {
+    var stream = fs.createReadStream(fn)
+      .on('data', function (chunk) {
+          console.log('got %d bytes of data', chunk.length);
+      })
+      .on('end', function() {
+        console.log('there will be no more data.');
+        streamer(fn);
+      })
+      .on('error', function(err) {
+        process.stderr.write(err);
+      });
+  }
 
-var split = Split();
-
-var filter = through(function(d) {
-  if (d.match(/exercittion/i)) this.queue(d);
-});
-
-var counter = 0;
-var count = through(function(d) {
-  counter ++;
-});
-
-count.on('end', function() {
-  console.log(counter);
-});
-
-stream
-  .pipe(gunzip)
-  .pipe(stripPunctuation)
-  .pipe(separateWords)
-  .pipe(split)
-  .pipe(filter)
-  .pipe(count)
-  //.pipe(process.stdout)
-  ;
+  streamer(fn);

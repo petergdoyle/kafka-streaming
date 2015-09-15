@@ -30,4 +30,5 @@ node_modules
 azure-account.publishsettings
 ssh
 .out
-.err 
+.err
+.gz

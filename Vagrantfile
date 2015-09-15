@@ -128,6 +128,19 @@ EOF
   yum -y install python-pip
   pip install -U docker-compose
 
+  #eventually this will go in the Dockerfile
+  #install kafka
+  export KAFKA_HOME='/vagrant/kafka'
+  curl -O --insecure http://apache.claz.org/kafka/0.8.2.1/kafka_2.9.1-0.8.2.1.tgz
+  tar -xvf kafka_2.9.1-0.8.2.1.tgz
+  mkdir -p $KAFKA_HOME
+  mv kafka_2.9.1-0.8.2.1 $KAFKA_HOME
+  ln -s $KAFKA_HOME/kafka_2.9.1-0.8.2.1 $KAFKA_HOME/default
+  chown -R vagrant:vagrant $KAFKA_HOME
+  rm -f kafka_2.9.1-0.8.2.1.tgz
+  mv $KAFKA_HOME/config/server.properties $KAFKA_HOME/config/server.properties.orig
+  cp /vagrant/kafka-single-node-server.properties $KAFKA_HOME/config/server.properties
+
   #set hostname
   hostnamectl set-hostname kafka-streaming.vbx
 

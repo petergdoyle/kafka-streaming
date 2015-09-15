@@ -29,6 +29,7 @@ node_modules
 .vagrant
 azure-account.publishsettings
 ssh
-.out
-.err
-.gz
+*.out
+*.err
+*.gz
+*.tar

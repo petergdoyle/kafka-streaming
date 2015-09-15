@@ -2,7 +2,12 @@
 var fs = require('fs');
 var zlib = require('zlib');
 
-var fn = process.argv[2];
+var argv = require('optimist')
+    .usage('Usage: $0 --fn=[compressed data file name]')
+    .demand(['fn'])
+    .argv;
+
+var fn = argv.fn;
 
 var streamer = function streamer(fn) {
   fs.createReadStream(fn)

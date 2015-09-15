@@ -28,6 +28,7 @@
     "split": "~1.0.0",
     "kafka-node": "~0.2.27",
     "optimist": "~0.6.1",
-    "throttle": "~1.0.3"
+    "throttle": "~1.0.3",
+    "kafka-rest": "0.0.4"
   }
 }

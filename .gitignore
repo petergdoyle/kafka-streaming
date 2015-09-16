@@ -33,3 +33,4 @@ ssh
 *.err
 *.gz
 *.tar
+.DS_Store

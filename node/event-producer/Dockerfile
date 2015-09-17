@@ -1,7 +1,6 @@
-FROM    petergdoyle/node
+FROM petergdoyle/node
 
-
-COPY . /src
+COPY src /src
 
 ENTRYPOINT ["node", "/src/simple_word_count.js"]
 

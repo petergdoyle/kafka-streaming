@@ -64,8 +64,8 @@ Vagrant.configure(2) do |config|
 
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--cpuexecutioncap", "80"]
-    vb.cpus=2 #recommended=4 if available
-    vb.memory = "1024" #recommended=3072 or 4096 if available
+    vb.cpus=4 #recommended=4 if available
+    vb.memory = "4096" #recommended=3072 or 4096 if available
   end
 
   # Define a Vagrant Push strategy for pushing to Atlas. Other push strategies

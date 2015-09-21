@@ -123,6 +123,7 @@ EOF
   groupadd docker
   usermod -aG docker vagrant
 
+
   #install docker-compose.
   #Compose is a tool for defining and running multi-container applications with Docker.
   yum -y install python-pip
@@ -130,7 +131,7 @@ EOF
 
   #eventually this will go in the Dockerfile
   #install kafka
-  export KAFKA_HOME='/vagrant/kafka'
+  export KAFKA_HOME='/home/vagrant/kafka/default'
   curl -O --insecure http://apache.claz.org/kafka/0.8.2.1/kafka_2.9.1-0.8.2.1.tgz
   tar -xvf kafka_2.9.1-0.8.2.1.tgz
   mkdir -p $KAFKA_HOME
@@ -140,6 +141,20 @@ EOF
   rm -f kafka_2.9.1-0.8.2.1.tgz
   mv $KAFKA_HOME/config/server.properties $KAFKA_HOME/config/server.properties.orig
   cp /vagrant/kafka-single-node-server.properties $KAFKA_HOME/config/server.properties
+
+  #because there will be dockerized kafka instances running on this vm
+  #it is necessary for development purposes to expose those container ports to
+  #the localhost (host vm) this will expose a kafka_zk_0 and 3 kafka_server_0,1,2
+  #to the localhost to interact with the containers. of course these containers
+  #would have to be named that way when they are created so look at
+  #scripts/docker_run_kafka_server.sh and scripts/docker_run_kafka_zk.sh for
+  #details on exact container names required for this to work properly
+  cat >>/etc/hosts <<-EOF
+127.0.0.1   kafka_server_0 kafka_server_1 kafka_server_2 kafka_zk_0
+::1         kafka_server_0 kafka_server_1kafka_server_2 kafka_zk_0
+EOF
+
+
 
   #set hostname
   hostnamectl set-hostname kafka-streaming.vbx

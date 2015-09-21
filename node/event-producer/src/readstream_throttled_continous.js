@@ -23,7 +23,7 @@ var streamer = function streamer(fn) {
       process.stdout.write(line);
     })
     .on('end', function() {
-      process.stdout.write('\n\nDONE!!!\n\n');
+      process.stdout.write('\n\nDONE\n\n');
       streamer(fn);
     })
     ;

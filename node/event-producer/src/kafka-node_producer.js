@@ -1,9 +1,10 @@
 
 var fs = require('fs');
 var Split = require('split');
-var kafka = require('kafka-node');
 var zlib = require('zlib');
 var Throttle = require('throttle');
+var kafka = require('kafka-node');
+
 
 var argv = require('optimist')
     .usage('Usage: $0 --fn=[compressed data file name] --kbps=[kilobytes per second] --topic=[kafka-topic name]')
@@ -22,14 +23,15 @@ var Producer = kafka.Producer;
 var Client = kafka.Client;
 
 var streamer = function streamer(fn) {
-  var client = new Client('localhost:2181');
+
+  var client = new Client('kafka_zk_0:2181');
   var producer = new Producer(client, { requireAcks: 1 });
+
   fs.createReadStream(fn)
     .pipe(zlib.createGunzip())
-    //.pipe(new Throttle(kbps * kb))
+    .pipe(new Throttle(kbps * kb))
     .pipe(Split())
     .on('data', function (line) {
-      //process.stdout.write('\nLINE\n');
 
       producer.on('ready', function () {
           var message = line;
@@ -42,8 +44,7 @@ var streamer = function streamer(fn) {
 
     })
     .on('end', function() {
-      //process.stdout.write('\nDONE\n');
-      streamer(fn);
+        streamer(fn);
     })
     ;
 }

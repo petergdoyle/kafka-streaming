@@ -1,7 +1,8 @@
-FROM petergdoyle/node
+FROM petergdoyle/kafka:2.9
 
 COPY src /src
+COPY scripts /scripts
 
-ENTRYPOINT ["node", "/src/simple_word_count.js"]
+RUN yum -y install nodejs npm
 
-CMD []
+CMD ["/bin/bash"]

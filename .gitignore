@@ -34,3 +34,4 @@ ssh
 *.gz
 *.tar
 .DS_Store
+kafka

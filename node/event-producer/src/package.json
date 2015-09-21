@@ -29,6 +29,7 @@
     "kafka-node": "~0.2.27",
     "optimist": "~0.6.1",
     "throttle": "~1.0.3",
-    "kafka-rest": "0.0.4"
+    "jetty": "~0.2.1",
+    "express": "~4.13.3"
   }
 }

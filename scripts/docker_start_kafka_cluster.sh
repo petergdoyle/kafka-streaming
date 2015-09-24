@@ -2,4 +2,4 @@
 
 docker start kafka_zk_0
 wait %1
-docker start kafka_server_0 
+docker start kafka_server_0

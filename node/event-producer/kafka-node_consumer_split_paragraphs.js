@@ -24,6 +24,14 @@ consumer = new Consumer(
     }
 );
 
+var PADDING = "1000000".length;
+
+Number.prototype.pad = function(size) {
+      var s = String(this);
+      while (s.length < (size || 2)) {s = "0" + s;}
+      return s;
+}
+
 consumer.on('message', function (message) {
 
 /*
@@ -42,7 +50,7 @@ consumer.on('message', function (message) {
   var producer = new kafka.Producer(new kafka.Client('kafka_zk_0:2181'),{ requireAcks: 1 });
   producer_partition = 0;
   producer_attrs = 0;
-  producer_message = v.length.toString()+message.value;
+  producer_message = (v.length).pad(PADDING)+message.value;
   producer_topic = (v.length % 2 ) ? "odd-word-count" : "even-word-count";
 
   producer.on('ready', function () {

@@ -51,7 +51,7 @@ consumer.on('message', function (message) {
   producer_partition = 0;
   producer_attrs = 0;
   producer_message = (v.length).pad(PADDING)+message.value;
-  producer_topic = (v.length % 2 ) ? "odd-word-count" : "even-word-count";
+  producer_topic = (v.length % 2 ) ? "odd-words" : "even-words";
 
   producer.on('ready', function () {
     console.log("emitting to ",producer_topic);

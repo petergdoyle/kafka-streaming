@@ -132,6 +132,7 @@ EOF
   #eventually this will go in the Dockerfile
   #install kafka
   export KAFKA_HOME='/home/vagrant/kafka/default'
+  echo "export KAFKA_HOME=$KAFKA_HOME" >> /etc/profile.d/kafka.sh 
   curl -O --insecure http://apache.claz.org/kafka/0.8.2.1/kafka_2.9.1-0.8.2.1.tgz
   tar -xvf kafka_2.9.1-0.8.2.1.tgz
   mkdir -p $KAFKA_HOME

@@ -3,7 +3,7 @@ kafka-streaming
 ======
 **kafka-streaming** Build a streaming data pipeline with kafka and node.js and spring-xd
 
-[Topology](screenshot.jpg)
+[Topology](ScreenShot.jpg)
 
 ## Version
 * Version 0.0.1

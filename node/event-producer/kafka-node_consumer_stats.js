@@ -16,9 +16,6 @@ var Jetty = require("jetty");
 // Create a new Jetty object. This is a through stream with some additional
 // methods on it. Additionally, connect it to process.stdout
 var jetty = new Jetty(process.stdout);
-// Clear the screen
-jetty.clear();
-
 
 var kafka = require('kafka-node'),
 Consumer = kafka.Consumer,
@@ -32,19 +29,26 @@ consumer = new Consumer(
         autoCommit: consumer_autoCommit
     }
 );
+
 var count = 0;
 var total_bytes = 0;
+
+// Clear the screen
+jetty.clear();
+jetty.moveTo([0,0]);
+jetty.text("Stats for Kafka Topic '"+consumer_topic+"'");
+
 consumer.on('message', function (message) {
 
   total_bytes+=message.value.length;
   count++;
-  avg_size = Math.round((total_bytes / count) * 100) / 100;
-
-  jetty.moveTo([0,0]);
-
+  avg_size = total_bytes / count;
+  jetty.moveTo([1,0]);
   jetty.text(
-    'total_messages:'.concat(numeral(count,'0 a'))+'\navg_msg_size:'.concat(numeral(avg_size).format('0 b'))+'\ntotal_msg_volume: '.concat(numeral(total_bytes).format('0 b'))
-  );
-
+    'total_messages: '.concat(numeral(count,'0 a'))
+    +'\navg_msg_size: '.concat(numeral(avg_size).format('0.00 b'))
+    +'\ntotal_msg_volume: '.concat(numeral(total_bytes).format('0.00 b'))
+    +'\n');
+  jetty.clearLine();
 
 });

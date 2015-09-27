@@ -27,10 +27,12 @@ if (isNaN(argv.continuous)) {
 var kb = 1024;
 var recursion_count = 0;
 
-var streamer = function streamer(fn) {
-  recursion_count++;
 
-  var producer = new kafka.Producer(new kafka.Client(zk), { requireAcks: 1 });
+var HighLevelProducer = kafka.HighLevelProducer;
+var client = new kafka.Client(zk);
+
+var streamer = function streamer(fn,producer) {
+  recursion_count++;
 
   fs.createReadStream(fn)
     .pipe(zlib.createGunzip())
@@ -49,12 +51,10 @@ var streamer = function streamer(fn) {
 
     })
     .on('end', function() {
-      if (continuous === 'true') {
-        streamer(fn);
-      } else if (continuous === 'false') {
-        console.log("done");
-      } else if (recursion_count < max_recursion) {
-        streamer(fn);
+      if (continuous === 'false') {
+      } else if (continuous === 'true' || recursion_count < max_recursion) {
+        console.log("recursion", recursion_count);
+        streamer(fn,producer);
       }
     })
     .on('close', function(err) {
@@ -66,4 +66,4 @@ var streamer = function streamer(fn) {
     ;
 }
 
-streamer(fn);
+streamer(fn,new HighLevelProducer(client));

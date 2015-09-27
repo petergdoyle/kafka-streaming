@@ -64,3 +64,20 @@ For using the Azure CLI you should set up a rsa key and X509 certificate. This i
 Follow the instructions here after you get your vagrant machine up and running  [How to Use SSH with Linux on Azure](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-use-ssh-key/)
 
 As well to use a Docker Virtual Machine Extension on Azure read through this document. [The Docker Virtual Machine Extension for Linux on Azure](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-docker-vm-extension/)
+
+References:
+[How to choose the number of topics/partitions in a Kafka cluster?](http://www.confluent.io/blog/how-to-choose-the-number-of-topicspartitions-in-a-kafka-cluster/)
+
+by Jun Rao March 12, 2015
+
+[Getting Started with Apache Kafka for the Baffled, Part 2](http://www.shayne.me/blog/2015/2015-06-25-everything-about-kafka-part-2/)
+
+by Shayne Studdard, Jun 25 2015
+
+[](http://stackoverflow.com/questions/29511521/whether-key-is-required-as-part-of-sending-message-in-kafka)
+
+Kuujo, Apr 8 at 13:14
+
+[Delete message after consuming it in KAFKA](http://stackoverflow.com/questions/28586008/delete-message-after-consuming-it-in-kafka?rq=1)
+
+Lundahl, Feb 18 at 21:21

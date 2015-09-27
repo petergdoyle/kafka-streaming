@@ -27,11 +27,13 @@ build
 node_modules
 
 .vagrant
-azure-account.publishsettings
 ssh
 *.out
 *.err
 *.gz
 *.tar
 .DS_Store
+
 kafka
+azure-account.publishsettings
+estreaming-data

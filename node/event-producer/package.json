@@ -30,6 +30,7 @@
     "optimist": "~0.6.1",
     "throttle": "~1.0.3",
     "jetty": "~0.2.1",
-    "express": "~4.13.3"
+    "express": "~4.13.3",
+    "numeral": "~1.5.3"
   }
 }

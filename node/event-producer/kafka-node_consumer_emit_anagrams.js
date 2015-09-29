@@ -1,7 +1,5 @@
 
 
-var numeral = require('numeral');
-
 var argv = require('optimist')
     .usage('Usage: $0 \
     --groupid=[req: kafka-node-group-0,1,2,3...] \
@@ -57,29 +55,67 @@ consumer = new Consumer(
     options
 );
 
-var count = 0;
-var total_bytes = 0;
 
-var Jetty = require("jetty");
-// Create a new Jetty object. This is a through stream with some additional
-// methods on it. Additionally, connect it to process.stdout
-var jetty = new Jetty(process.stdout);
-// Clear the screen
-jetty.clear();
-jetty.moveTo([0,0]);
-jetty.text("Stats for Kafka Topic '"+topic+"'");
+var HighLevelProducer = kafka.HighLevelProducer;
+var client2 = new kafka.Client(zk);
+var producer = new HighLevelProducer(client2,{ requireAcks: 1 });
+producer_partition = 0;
+producer_attrs = 0;
+producer.on('error', function (err) {
+  console.log('error', err);
+});
+
+var count = 0;
 
 consumer.on('message', function (message) {
-
-  total_bytes+=message.value.length;
   count++;
-  avg_size = total_bytes / count;
-  jetty.moveTo([1,0]);
-  jetty.text(
-    'total_messages: '.concat(numeral(count,'0 a'))
-    +'\navg_msg_size: '.concat(numeral(avg_size).format('0.00 b'))
-    +'\ntotal_msg_volume: '.concat(numeral(total_bytes).format('0.00 b'))
-    +'\n');
-  jetty.clearLine();
+/*
+  message produces:
+  { topic: 'paragraphs',
+    value: 'The application would have to somehow execute this function on all pairs of words in the input. However fast this method would be, the overall execution would still take quite some time.',
+    offset: 0,
+    partition: 0,
+    key: -1 }
+*/
 
+  // remove punctuation and split the paragraph into words
+  var words = message.value
+    .replace(/[^\w\s]|_/g, "")
+    .replace(/\s+/g, " ")
+    .split(' ');
+
+  // build up an array of anagrams to be sent as a group of messages to kafka
+  var messages = [];
+  for (i=0; i < words.length; i++) {
+    var word = words[i];
+    // the key is the sorted characters in the word
+    // two words with the same characters in any order case insensitive will
+    // then have the same key
+    // those words then are said to be anagrams of each other
+    var key = word.toLowerCase()/*concerned about letters not case*/.split('').sort(
+      function (a, b)
+        {
+           var ret = 0;
+           if(a > b)
+              ret = 1;
+           if(a < b)
+              ret = -1;
+           return ret;
+        }
+      ).join('');
+    var message = [key,word,1].toString();
+    messages.push(message);
+  }
+
+  var payload =
+      {
+        topic: 'anagram',
+        partition: producer_partition,
+        messages: messages,
+        attributes: producer_attrs
+      };
+  //console.log(payload);
+  producer.send([payload], function (err, result) {
+      console.log(err || result);
+  });
 });

@@ -67,17 +67,17 @@ As well to use a Docker Virtual Machine Extension on Azure read through this doc
 
 References:
 [How to choose the number of topics/partitions in a Kafka cluster?](http://www.confluent.io/blog/how-to-choose-the-number-of-topicspartitions-in-a-kafka-cluster/)
-
 by Jun Rao March 12, 2015
 
 [Getting Started with Apache Kafka for the Baffled, Part 2](http://www.shayne.me/blog/2015/2015-06-25-everything-about-kafka-part-2/)
-
 by Shayne Studdard, Jun 25 2015
 
 [](http://stackoverflow.com/questions/29511521/whether-key-is-required-as-part-of-sending-message-in-kafka)
-
-Kuujo, Apr 8 at 13:14
+comments by Kuujo, Apr 8 at 13:14
 
 [Delete message after consuming it in KAFKA](http://stackoverflow.com/questions/28586008/delete-message-after-consuming-it-in-kafka?rq=1)
+comments by Lundahl, Feb 18 at 21:21
 
-Lundahl, Feb 18 at 21:21
+
+[KAFKA HIGH LEVEL CONSUMER – FREQUENTLY MISSING DETAILS](http://ingest.tips/2014/10/12/kafka-high-level-consumer-frequently-missing-pieces/)
+by GWEN SHAPIRA OCTOBER 12, 2014

@@ -7,7 +7,12 @@ var kafka = require('kafka-node');
 
 
 var argv = require('optimist')
-    .usage('Usage: $0 --zk=[kafka_zk_0:2181] --fn=[compressed data file name] --kbps=[kilobytes per second] --topic=[kafka-topic name] --continuous=[true|false or a specific number of times to loop on the file]')
+    .usage('Usage: $0 \
+    --zk=[kafka_zk_0:2181] \
+    --fn=[compressed data file name] \
+    --kbps=[kilobytes per second] \
+    --topic=[kafka-topic name] \
+    --continuous=[true|false or a specific number of times to loop on the file]')
     .demand(['zk', 'fn','kbps','topic','continuous'])
     .argv;
 
@@ -27,43 +32,58 @@ if (isNaN(argv.continuous)) {
 var kb = 1024;
 var recursion_count = 0;
 
-
 var HighLevelProducer = kafka.HighLevelProducer;
 var client = new kafka.Client(zk);
 
 var streamer = function streamer(fn,producer) {
-  recursion_count++;
 
-  fs.createReadStream(fn)
+  recursion_count++;
+  var stream = fs.createReadStream(fn);
+  stream.identifier = recursion_count;
+  console.log("recursion", recursion_count, "stream", stream);
+  stream
     .pipe(zlib.createGunzip())
     .pipe(new Throttle(kbps * kb))
     .pipe(Split())
     .on('data', function (line) {
 
+      if (line.length === 0) {
+        return;
+      }
+
       producer.on('ready', function () {
-          var message = line;
-          producer.send([
-              { topic: topic, partition: p, messages: [message], attributes: a }
-          ], function (err, result) {
+          var payload =
+              {
+                topic: topic,
+                partition: p,
+                messages: [line],
+                attributes: a
+              };
+          //console.log(payload);
+          producer.send([payload], function (err, result) {
               console.log(err || result);
           });
       });
 
     })
     .on('end', function() {
-      if (continuous === 'false') {
-      } else if (continuous === 'true' || recursion_count < max_recursion) {
-        console.log("recursion", recursion_count);
+      if (continuous === 'true' || recursion_count < max_recursion) {
         streamer(fn,producer);
       }
     })
     .on('close', function(err) {
-      console.log('Stream has been destroyed and file has been closed');
+      console.log('Stream ' + stream.identifier + ' has been destroyed and file has been closed', 'stream',stream);
+        if (continuous === 'false' || recursion_count >= max_recursion) {
+          console.log("done");
+        }
     })
     .on('error', function(err) {
       console.log(err);
     })
     ;
 }
-
-streamer(fn,new HighLevelProducer(client));
+var producer = new HighLevelProducer(client,{ requireAcks: 1 });
+producer.on('error', function (err) {
+  console.log('error', err);
+});
+streamer(fn,producer);

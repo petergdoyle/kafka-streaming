@@ -1,7 +1,5 @@
 
 
-var numeral = require('numeral');
-
 var argv = require('optimist')
     .usage('Usage: $0 \
     --groupid=[req: kafka-node-group-0,1,2,3...] \
@@ -10,7 +8,6 @@ var argv = require('optimist')
     --partition=[def: 0] \
     --autocommit=[ true|false, def:true] \
     --autocommitinterval=[ 500,1000,etc. ms, def:5000] \
-    --serverport [####, def:3000] \
     ')
     .demand(['groupid','zk','topic'])
     .argv;
@@ -21,7 +18,6 @@ var topic = argv.topic;
 var partition = argv.partition || 0;
 var autocommit = argv.autocommit || true;
 var autocommitinterval = argv.autocommitinterval || 5000;
-var serverport = argv.serverport || 3000;
 
 var options = {
     //consumer group id, default `kafka-node-group`
@@ -60,68 +56,7 @@ consumer = new Consumer(
 );
 
 var count = 0;
-var total_bytes = 0;
 
-var Jetty = require("jetty");
-// Create a new Jetty object. This is a through stream with some additional
-// methods on it. Additionally, connect it to process.stdout
-var jetty = new Jetty(process.stdout);
-// Clear the screen
-jetty.clear();
-jetty.moveTo([0,0]);
-jetty.text("Stats for Kafka Topic '"+topic+"'");
-
-function stats(message) {
-  total_bytes+=message.value.length;
+consumer.on('message', function (message) {
   count++;
-  avg_size = total_bytes / count;
-  jetty.moveTo([1,0]);
-  jetty.text(
-    'total_messages: '.concat(numeral(count,'0 a'))
-    +'\navg_msg_size: '.concat(numeral(avg_size).format('0.00 b'))
-    +'\ntotal_msg_volume: '.concat(numeral(total_bytes).format('0.00 b'))
-    +'\n');
-  jetty.clearLine();
-}
-
-consumer.on('message', function(message) {
-    stats(message);
 });
-consumer.on('error', function(err) {
-  console.log(err);
-});
-
-
-/*
-// web part
-var express = require("express");
-var app = express();
-
-var router = express.Router();
-var host,port;
-
-router.use(function(req,res,next) {
-  console.log("" + req.baseUrl + " " + req.ip );
-  next();
-});
-
-router.use("/topic/:topic",function(req,res,next){
-  console.log(req.params.topic)
-  if(req.params.topic == 'airshop') {
-    res.json({"message" : "true"});
-  }
-  else next();
-});
-
-router.get("/",function(req,res){
-  res.json({"message" : "Kafka Report App listening at http://"+host+":"+port});
-});
-
-app.use("/api",router);
-
-var server = app.listen(serverport, function () {
-  host = server.address().address;
-  port = server.address().port;
-  console.log('Kafka Report App listening at http://%s:%s', host, port);
-});
-*/

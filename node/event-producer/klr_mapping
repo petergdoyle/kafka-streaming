@@ -1,0 +1,17 @@
+
+
+
+
+
+4 numeric - klr length
+4 alphanumeric - klr identifier
+3 numeric - number of items
+1 char F
+2 numeric level number
+2 numeric version number
+
+
+private data
+
+GFRH - start of a new solution
+GFRI - within the GFRH 0 Private Fare Quoted - Y | N 

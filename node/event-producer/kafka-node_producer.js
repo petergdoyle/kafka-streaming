@@ -7,7 +7,13 @@ var kafka = require('kafka-node');
 
 
 var argv = require('optimist')
-    .usage('Usage: $0 --zk=[kafka_zk_0:2181] --fn=[compressed data file name] --kbps=[kilobytes per second] --topic=[kafka-topic name] --continuous=[true|false or a specific number of times to loop on the file]')
+    .usage('Usage: $0 \
+    --zk=[kafka_zk_0:2181] \
+    --fn=[compressed data file name] \
+    --kbps=[kilobytes per second] \
+    --topic=[kafka-topic name] \
+    --continuous=[true|false or a specific number of times to loop on the file] \
+    ')
     .demand(['zk', 'fn','kbps','topic','continuous'])
     .argv;
 

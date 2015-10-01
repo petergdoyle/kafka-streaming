@@ -94,6 +94,8 @@ Vagrant.configure(2) do |config|
   yum -y install epel-release gcc gcc-c++
   yum -y install nodejs npm
 
+  npm install format-json-stream -g
+
   #install azure-cli
   npm install azure-cli -g
 
@@ -132,7 +134,7 @@ EOF
   #eventually this will go in the Dockerfile
   #install kafka
   export KAFKA_HOME='/home/vagrant/kafka/default'
-  echo "export KAFKA_HOME=$KAFKA_HOME" >> /etc/profile.d/kafka.sh 
+  echo "export KAFKA_HOME=$KAFKA_HOME" >> /etc/profile.d/kafka.sh
   curl -O --insecure http://apache.claz.org/kafka/0.8.2.1/kafka_2.9.1-0.8.2.1.tgz
   tar -xvf kafka_2.9.1-0.8.2.1.tgz
   mkdir -p $KAFKA_HOME
@@ -151,8 +153,14 @@ EOF
   #scripts/docker_run_kafka_server.sh and scripts/docker_run_kafka_zk.sh for
   #details on exact container names required for this to work properly
   cat >>/etc/hosts <<-EOF
-127.0.0.1   kafka_server_0 kafka_server_1 kafka_server_2 kafka_zk_0
-::1         kafka_server_0 kafka_server_1kafka_server_2 kafka_zk_0
+127.0.0.1   kafka_server_0 kafka_server_1 kafka_server_2 kafka_zk_0 \
+kafka_producer_paras_0 \
+kafka_producer_anagrams_0 kafak_consumer_anagrams_0 \
+kafka_stats_consumer_paras_0 kafka_stats_consumer_even_0 kafka_stats_consumer_odd_0
+::1         kafka_server_0 kafka_server_1kafka_server_2 kafka_zk_0 \
+kafka_producer_paras_0 \
+kafka_producer_anagrams_0 kafak_consumer_anagrams_0 \
+kafka_stats_consumer_paras_0 kafka_stats_consumer_even_0 kafka_stats_consumer_odd_0
 EOF
 
 

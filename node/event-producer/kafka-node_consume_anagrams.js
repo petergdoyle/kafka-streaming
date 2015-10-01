@@ -5,7 +5,8 @@ var argv = require('optimist')
     --groupid=[req: kafka-node-group-0,1,2,3...] \
     --zk=[req: kafka_zk_0:2181] \
     --topic=[req: kafka-topic] \
-    --partition=[def: 0] \
+    --serverport= [####, def:3000] \
+    --partition=[0,1,2,3..., def: 0] \
     --autocommit=[ true|false, def:true] \
     --autocommitinterval=[ 500,1000,etc. ms, def:5000] \
     ')
@@ -15,6 +16,7 @@ var argv = require('optimist')
 var groupid = argv.groupid;
 var zk = argv.zk;
 var topic = argv.topic;
+var serverport = argv.serverport || 3000;
 var partition = argv.partition || 0;
 var autocommit = argv.autocommit || true;
 var autocommitinterval = argv.autocommitinterval || 5000;
@@ -56,26 +58,44 @@ consumer = new Consumer(
 );
 
 var counter = 0;
-var dict = new Array();
+var dict = {};
 consumer.on('message', function (message) {
   counter++;
   var parts = message.value.split(',');
   var key = parts[0];
   var word = parts[1];
   var count = parts[2];
-  var found = (key in dict);
-  if (found) {
+  var matching_key = (key in dict);
+  if (matching_key) { // update an anagram entry with either a new word or update the count for that word
     all_words = dict[key];
-    same_word = all_words[word];
-    if (same_word) { // add to that word count
-      all_words[word] = same_word + parseInt(count);
-    } else { // add that word to the set of words for that anagram
+    matching_word = (word in all_words);
+    if (matching_word) { // add to that word count
+      word_count = all_words[word];
+      all_words[word] = word_count + parseInt(count);
+    } else { // add that word to the set of words for that anagram and set count
       all_words[word] = parseInt(count);
     }
   } else {
-    dict[key]={};
-    all_words = dict[key];
-    all_words[word] = parseInt(count);
+    dict[key]={}; // new entry (object) for that anagram key
+    all_words = dict[key]; // retrieve the new entry (object) with the key
+    all_words[word] = parseInt(count); // set a property (value of word) with a value (count)
   }
-  console.log(key, dict[key]);
+});
+
+
+var express = require("express");
+var app = express();
+
+var router = express.Router();
+var host,port;
+
+app.route('/anagrams')
+  .get(function(req, res) {
+    res.jsonp(dict);
+  });
+
+var server = app.listen(serverport, function () {
+  host = server.address().address;
+  port = server.address().port;
+  console.log('Kafka Report App listening at http://%s:%s', host, port);
 });

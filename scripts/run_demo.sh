@@ -30,6 +30,7 @@ node kafka-node_consumer_stats.js --groupid=node_consumer_stats_odd-wordcount_0 
 
 node kafka-node_consumer_stats.js --groupid=node_consumer_stats_anagram_0 --zk=kafka_zk_0:2181 --topic=anagram
 
+node kafka-node_consume_anagrams.js --groupid=node_consumer_consume_anagrams_0 --zk=kafka_zk_0:2181 --topic=anagram
 
 #Consumer-Producers
 
